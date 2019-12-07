@@ -34,7 +34,9 @@ setuptools.setup(
     url='https://github.com/andrewmilligan/fec-filing-iterator',
     author='Ander Milligan',
     author_email='andrew.i.milligan@gmail.com',
-    install_requires=[],
+    install_requires=[
+        'requests>=2.19.0',
+    ],
     packages=packages,
     package_data={'fec_filing_iterator': package_files},
 )
