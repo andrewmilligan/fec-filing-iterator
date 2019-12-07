@@ -1,3 +1,7 @@
+.. image:: https://readthedocs.org/projects/fec-filing-iterator/badge/?version=latest
+  :target: https://fec-filing-iterator.readthedocs.io/en/latest/?badge=latest
+  :alt: Documentation Status
+
 Overview
 ========
 
