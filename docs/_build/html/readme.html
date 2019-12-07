@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Overview &#8212; fec-filing-iterator  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Documentation for the Code" href="code.html" />
+    <link rel="prev" title="FEC Filing Iterator" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">fec-filing-iterator</span></code> provides a simple interface for iterating through
+results from the <a class="reference external" href="https://api.open.fec.gov/developers">Federal Election Commission’s API</a> as a single, lazily evaluated stream.
+The FEC’s API provides access to a wealth of data on where candidates and
+committees get their funds, what they spend it on, and more.  This library
+simply tries to make the API easier to work with in Python.</p>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>In order to use this library you will first need to get a <a class="reference external" href="https://www.data.gov/">data.gov</a> API key, which <a class="reference external" href="https://api.data.gov/signup/">you can request here</a>. Once you get an API key you will be allowed to
+make 1,000 requests to the FEC API per hour.  If you want more throughput you
+can request that your key be upgraded to be allowed to make 120 calls per
+minute by emailing <a class="reference external" href="mailto:apiinfo&#37;&#52;&#48;fec&#46;gov">APIinfo<span>&#64;</span>fec<span>&#46;</span>gov</a> and asking
+nicely.</p>
+<p>Next, you’ll have to install the library:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">fec</span><span class="o">-</span><span class="n">filing</span><span class="o">-</span><span class="n">iterator</span>
+</pre></div>
+</div>
+<p>Now you’re all set to start exploring campaign finance data! For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">fec_filing_iterator</span> <span class="kn">import</span> <span class="n">schedules</span>
+
+<span class="n">api_key</span> <span class="o">=</span> <span class="s1">&#39;&lt;YOUR_DATA_DOT_GOV_API_KEY&gt;&#39;</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;two_year_transaction_period&#39;</span><span class="p">:</span> <span class="mi">2020</span><span class="p">,</span>
+  <span class="s1">&#39;committee_id&#39;</span><span class="p">:</span> <span class="s1">&#39;C00696948&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">schedules</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">filing</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="factories-and-iterators">
+<h2>Factories and Iterators<a class="headerlink" href="#factories-and-iterators" title="Permalink to this headline">¶</a></h2>
+<p>This library only tries to provide an easy way to access and iterate through
+the paginated results returned by the FEC API. It does _not_ currently attempt
+to provide a full and consistent interface for retrieving arbitrary subsets of
+information from the API. Lots of powerful searches and queries can be
+parameterized through the API, but we leave it up to you to read the <a class="reference external" href="https://api.open.fec.gov/developers">FEC’s
+documentation</a> and find the appropriate
+parameters yourself.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">fec-filing-iterator</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#factories-and-iterators">Factories and Iterators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code.html">Documentation for the Code</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">FEC Filing Iterator</a></li>
+      <li>Next: <a href="code.html" title="next chapter">Documentation for the Code</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Andrew Milligan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/readme.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

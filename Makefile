@@ -1,17 +1,24 @@
-VERSION := $(shell python -c 'import fec_crawler; print(fec_crawler.__version__)')
+PACKAGE := 'fec-filing-iterator'
+MODULE  := 'fec_filing_iterator'
+VERSION := $(shell python -c 'import $(MODULE); print($(MODULE).__version__)')
+
+.PHONY: docs
 
 all: lint test
 
 test:
-	coverage run --source fec_crawler -m py.test --disable-warnings
+	coverage run --source $(MODULE) -m py.test --disable-warnings
 	coverage report -m
 
 lint:
-	flake8 fec_crawler/
+	flake8 $(MODULE)/
 	flake8 tests/
 
+docs:
+	cd docs && make html
+
 release:
-	@echo "Releasing fec-crawler $(VERSION)"
+	@echo "Releasing $(PACKAGE) $(VERSION)"
 	python setup.py sdist upload -r local
 
 clean:

@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Documentation &#8212; fec-filing-iterator  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="FEC Filing Iterator" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-fec_filing_iterator">
+<span id="documentation"></span><h1>Documentation<a class="headerlink" href="#module-fec_filing_iterator" title="Permalink to this headline">¶</a></h1>
+<p>A module for iterating though results from the FEC API.</p>
+<p>This module provides several useful utilities for iterating through paginated
+results from the <a class="reference external" href="https://api.open.fec.gov/developers">FEC API</a>. The meat of
+this module is in the <a class="reference internal" href="#fec_filing_iterator.filing_iterator.FilingIterator" title="fec_filing_iterator.filing_iterator.FilingIterator"><code class="xref py py-class docutils literal notranslate"><span class="pre">filing_iterator.FilingIterator</span></code></a> class, which
+encapsulates the logic of interacting with the FEC API and iterating through
+the returned results. In theory the <code class="docutils literal notranslate"><span class="pre">FilingIterator</span></code> class can iterate
+through the results of any endpoint that the FEC API provides.</p>
+<p>Included are several iterator factory functions that allow you to create
+instances of the <code class="docutils literal notranslate"><span class="pre">FilingIterator</span></code> class to handle common endpoints, such as
+those for Schedule A filings. In many cases one of the factory functions will
+allow you easy access to the data you need, but if you want access to
+a specific endpoint of the API you can always create your own iterator
+directly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All of the factory functions and the <code class="docutils literal notranslate"><span class="pre">FilingIterator</span></code> class can be
+imported directly from the top-level of the module, so the following will
+both work:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">fec_filing_iterator</span> <span class="kn">import</span> <span class="n">schedules</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">fec_filing_iterator.factories</span> <span class="kn">import</span> <span class="n">candidates</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="module-fec_filing_iterator.factories">
+<span id="iterator-factories"></span><h2>Iterator Factories<a class="headerlink" href="#module-fec_filing_iterator.factories" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-factories"></span><dl class="function">
+<dt id="fec_filing_iterator.factories.candidates">
+<code class="sig-prename descclassname">fec_filing_iterator.factories.</code><code class="sig-name descname">candidates</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#fec_filing_iterator.factories.candidates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator factory that creates an iterator to loop through candidates
+returned from the FEC <a class="reference external" href="https://api.open.fec.gov/developers#/candidate/get_candidates_">/canidates/</a>
+endpoint. This endpoint allows you to “fetch basic information about
+candidates, and use parameters to filter results to the candidates you’re
+looking for”.</p>
+<dl class="simple">
+<dt>Kwargs:</dt><dd><p>All keyword arguments are forwarded to the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">filing_iterator.FilingIterator</span></code> object</p>
+</dd>
+</dl>
+<p>For example, you could get each candidate’s FEC candidate ID with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">cand</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">cand</span><span class="p">[</span><span class="s1">&#39;candidate_id&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fec_filing_iterator.factories.committees">
+<code class="sig-prename descclassname">fec_filing_iterator.factories.</code><code class="sig-name descname">committees</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#fec_filing_iterator.factories.committees" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator factory that creates an iterator to loop through committees
+returned from the FEC <a class="reference external" href="https://api.open.fec.gov/developers#/committee/get_committees_">/committees/</a>
+endpoint. This endpoint allows you to “fetch basic information about
+committees and filers” and “use parameters to filter for particular
+characteristics”.</p>
+<dl class="simple">
+<dt>Kwargs:</dt><dd><p>All keyword arguments are forwarded to the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">filing_iterator.FilingIterator</span></code> object</p>
+</dd>
+</dl>
+<p>For example, you could get each committee’s FEC ID with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">cmte</span> <span class="ow">in</span> <span class="n">committees</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">cmte</span><span class="p">[</span><span class="s1">&#39;committee_id&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fec_filing_iterator.factories.dates">
+<code class="sig-prename descclassname">fec_filing_iterator.factories.</code><code class="sig-name descname">dates</code><span class="sig-paren">(</span><em class="sig-param">date_type</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#fec_filing_iterator.factories.dates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator factory that creates an iterator to loop through different kinds
+of dates returned from the FEC API. The API has separate endpoints for
+calendar dates (<a class="reference external" href="https://api.open.fec.gov/developers#/dates/get_calendar_dates_">/calendar-dates/</a>),
+election dates (<a class="reference external" href="https://api.open.fec.gov/developers#/dates/get_election_dates_">/election-dates/</a>), and
+reporting dates (<a class="reference external" href="https://api.open.fec.gov/developers#/dates/get_calendar_dates_">/reporting-dates/</a>), and
+this interator factory supports all three. These endpoints give you access
+to reporting deadlines, election dates, FEC meetings and events, and more.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>date_type (str): The type of dates to query (‘calendar’, ‘election’, or
+‘reporting’)</p>
+</dd>
+<dt>Kwargs:</dt><dd><p>All keyword arguments are forwarded to the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">filing_iterator.FilingIterator</span></code> object</p>
+</dd>
+</dl>
+<p>For example, you could get each election date with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">elec</span> <span class="ow">in</span> <span class="n">dates</span><span class="p">(</span><span class="s1">&#39;election&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">elec</span><span class="p">[</span><span class="s1">&#39;election_date&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fec_filing_iterator.factories.filings">
+<code class="sig-prename descclassname">fec_filing_iterator.factories.</code><code class="sig-name descname">filings</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#fec_filing_iterator.factories.filings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator factory that creates an iterator to loop through all filings
+returned from the FEC <a class="reference external" href="https://api.open.fec.gov/developers#/filings/get_filings_">/filings/</a> endpoint.
+This endpoint gives you access to “all official records and reports filed
+by or delivered to the FEC”.</p>
+<p>For example, you could get each filing’s form type with the following
+(though you’ll be waiting for a very long time):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">filings</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">filing</span><span class="p">[</span><span class="s1">&#39;form_type&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fec_filing_iterator.factories.schedules">
+<code class="sig-prename descclassname">fec_filing_iterator.factories.</code><code class="sig-name descname">schedules</code><span class="sig-paren">(</span><em class="sig-param">schedule_type</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#fec_filing_iterator.factories.schedules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator factory that creates an iterator to loop through all schedules
+returned from the various FEC schedules endpoints, including
+<a class="reference external" href="https://api.open.fec.gov/developers#/receipts/get_schedules_schedule_a_">/schedules/schedule_a/</a>
+and <a class="reference external" href="https://api.open.fec.gov/developers#/disbursements/get_schedules_schedule_b_">/schedules/schedule_b/</a>.
+The API has endpoints for schedule types A through F, and this factory
+supports all of them.</p>
+<p>For example, you could get all of the disbursements made by the committee
+Bernie 2020 with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bernie_disbursements</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">schedules</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">bernie_disbursements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filing</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fec_filing_iterator.filing_iterator">
+<span id="filing-iterator"></span><h2>Filing Iterator<a class="headerlink" href="#module-fec_filing_iterator.filing_iterator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="fec_filing_iterator.filing_iterator.FilingIterator">
+<em class="property">class </em><code class="sig-prename descclassname">fec_filing_iterator.filing_iterator.</code><code class="sig-name descname">FilingIterator</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">api_key=None</em>, <em class="sig-param">params=None</em>, <em class="sig-param">pagination=None</em>, <em class="sig-param">per_page=100</em>, <em class="sig-param">paged=False</em><span class="sig-paren">)</span><a class="headerlink" href="#fec_filing_iterator.filing_iterator.FilingIterator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main filing iterator class</p>
+<p>This class encapsulates the logic of interacting with the FEC API and
+iterating through the paged results that are returned in order to present
+the full set of results as a single, lazily evaluated, iterable stream.</p>
+<dl>
+<dt>Args:</dt><dd><p>Positional arguments are combined to create a URL</p>
+</dd>
+<dt>Kwargs:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">api_key</span></code> (str): FEC API key</p>
+<p><code class="docutils literal notranslate"><span class="pre">params</span></code> (dict): Parameters to pass to the FEC API</p>
+<p><code class="docutils literal notranslate"><span class="pre">pagination</span></code> (dict): API pagination information to start your
+iteration from</p>
+<p><code class="docutils literal notranslate"><span class="pre">per_page</span></code> (int): Number of results to return per page, max is 100,
+which is also the default</p>
+<p><code class="docutils literal notranslate"><span class="pre">paged</span></code> (bool): Whether the results are paginated using normal
+page-based pagination or with numbered indexes. Most endpoints are
+normally paginated, but notably some of the schedule endpoints use
+indexes</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">api_key</span> <span class="o">=</span> <span class="s1">&#39;YOU_FEC_API_KEY&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;two_year_transaction_period&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">2020</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s1">&#39;committee_id&#39;</span><span class="p">:</span> <span class="s1">&#39;C00696948&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">schedule</span> <span class="ow">in</span> <span class="n">FilingIterator</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;schedules&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;schedule_a&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">params</span><span class="o">=</span><span class="n">params</span>
+<span class="gp">... </span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">schedule</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fec_filing_iterator.errors">
+<span id="errors"></span><h2>Errors<a class="headerlink" href="#module-fec_filing_iterator.errors" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-errors"></span><dl class="exception">
+<dt id="fec_filing_iterator.errors.Error">
+<em class="property">exception </em><code class="sig-prename descclassname">fec_filing_iterator.errors.</code><code class="sig-name descname">Error</code><a class="headerlink" href="#fec_filing_iterator.errors.Error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base error class for other more specific error classes</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="fec_filing_iterator.errors.FecApiError">
+<em class="property">exception </em><code class="sig-prename descclassname">fec_filing_iterator.errors.</code><code class="sig-name descname">FecApiError</code><a class="headerlink" href="#fec_filing_iterator.errors.FecApiError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when there is a problem encountered with the FEC API (e.g., when an
+invalid request is made or when the API rate limit is exceeded after all
+retries are exhausted)</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">fec-filing-iterator</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-fec_filing_iterator.factories">Iterator Factories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-fec_filing_iterator.filing_iterator">Filing Iterator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-fec_filing_iterator.errors">Errors</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">FEC Filing Iterator</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Andrew Milligan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/code.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

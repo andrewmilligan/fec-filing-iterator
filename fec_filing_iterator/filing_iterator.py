@@ -1,13 +1,54 @@
+'''
+.. module: filing_iterator
+
+.. moduleauthor:: Andrew Milligan <andrew.i.milligan@gmail.com>
+'''
+
 import requests
 import time
-from errors import FecApiError
+from .errors import FecApiError
 
 
 class FilingIterator(object):
-    '''
+    '''Main filing iterator class
+
     This class encapsulates the logic of interacting with the FEC API and
     iterating through the paged results that are returned in order to present
     the full set of results as a single, lazily evaluated, iterable stream.
+
+    Args:
+        Positional arguments are combined to create a URL
+
+    Kwargs:
+        ``api_key`` (str): FEC API key
+
+        ``params`` (dict): Parameters to pass to the FEC API
+
+        ``pagination`` (dict): API pagination information to start your
+        iteration from
+
+        ``per_page`` (int): Number of results to return per page, max is 100,
+        which is also the default
+
+        ``paged`` (bool): Whether the results are paginated using normal
+        page-based pagination or with numbered indexes. Most endpoints are
+        normally paginated, but notably some of the schedule endpoints use
+        indexes
+
+    Example:
+
+    >>> api_key = 'YOU_FEC_API_KEY'
+    >>> params = {
+    ...     'two_year_transaction_period': [2018, 2020],
+    ...     'committee_id': 'C00696948',
+    ... }
+    >>> for schedule in FilingIterator(
+    ...     'schedules',
+    ...     'schedule_a',
+    ...     api_key=api_key,
+    ...     params=params
+    ... ):
+    ...     print(schedule)
     '''
 
     BASE_URL = 'https://api.open.fec.gov/v1'
