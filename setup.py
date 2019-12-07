@@ -31,7 +31,13 @@ setuptools.setup(
     name=package_name,
     version=version,
     description='Utility to iterate over FEC filings through the FEC API',
+    long_description=(
+        'Provides an iterator class and a set of iterator factory functions '
+        'to access and iterate through paged results from the FEC API'
+    ),
+    keywords='fec campaign finance elections',
     url='https://github.com/andrewmilligan/fec-filing-iterator',
+    license='ISC',
     author='Ander Milligan',
     author_email='andrew.i.milligan@gmail.com',
     install_requires=[
