@@ -3,8 +3,8 @@
 import os
 import setuptools
 
-package_name = 'fec_crawler'
-binary_name = 'fec-crawler'
+package_name = 'fec_filing_iterator'
+binary_name = 'fec-filing-iterator'
 
 # Set up some directories we'll need
 app_dir = os.path.dirname(os.path.realpath(__file__))
@@ -31,15 +31,10 @@ setuptools.setup(
     name=package_name,
     version=version,
     description='Utility to iterate over FEC filings through the FEC API',
-    url='https://github.com/andrewmilligan/fec-crawler',
+    url='https://github.com/andrewmilligan/fec-filing-iterator',
     author='Ander Milligan',
     author_email='andrew.i.milligan@gmail.com',
     install_requires=[],
     packages=packages,
-    package_data={'fec_crawler': package_files},
-    # entry_points={
-    #     "console_scripts": [
-    #         "{} = {}.main:program.run".format(binary_name, package_name)
-    #     ]
-    # },
+    package_data={'fec_filing_iterator': package_files},
 )
