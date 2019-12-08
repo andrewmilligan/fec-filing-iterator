@@ -1,3 +1,6 @@
+.. image:: https://img.shields.io/pypi/v/fec-filing-iterator.svg
+  :target: https://pypi.python.org/pypi/datakit-project
+
 .. image:: https://readthedocs.org/projects/fec-filing-iterator/badge/?version=latest
   :target: https://fec-filing-iterator.readthedocs.io/en/latest/?badge=latest
   :alt: Documentation Status
