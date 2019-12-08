@@ -17,12 +17,14 @@ lint:
 docs:
 	cd docs && make html
 
-release:
+release: clean
 	@echo "Releasing $(PACKAGE) $(VERSION)"
-	python setup.py sdist upload -r local
+	python setup.py sdist bdist_wheel
+	python -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 clean:
 	find . -name "*.pyc" -delete
 	find . -name "__pycache__" -type d -empty -delete
 	rm -rf .pytest_cache
 	rm -f .coverage
+	rm -rf build/ dist/ $(MODULE).egg-info/
